@@ -8,4 +8,5 @@ DatabaseForPermutationAllPermutations: code to generate all permutations
 MarchingCubesVer2: code to run marching cubes for a ply file
 
 test_writing_mesh: import MarchingCubesVer2 to write output to a ply file
+test_reading_mesh: read ply file
 
