@@ -11,3 +11,4 @@ test_writing_mesh: import MarchingCubesVer2 to write output to a ply file
 
 test_reading_mesh: read ply file
 
+INSTRUCTIONS: change input file name in MarchingCubesVer2, then run test_writing_mesh to desire file. Read output file by test_reading_mesh 
