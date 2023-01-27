@@ -27,6 +27,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import math
 from copy import deepcopy
+import json
 
 
 
@@ -701,7 +702,7 @@ if __name__ == "__main__":
     count_permutation_cases()
     #
     with open('permutations.txt',"w") as f:
-        f.write(str(PERMUTATIONS))
+        f.write(json.dumps(PERMUTATIONS))
     #
     # print(PERMUTATIONS)
 
