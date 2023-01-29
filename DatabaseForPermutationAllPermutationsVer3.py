@@ -32,7 +32,7 @@ import json
 
 
 
-
+# If DATA_SCALE from MarchingCubeVer2 != None, SIDE = 1
 SIDE = 1
 HALF_SIDE = SIDE/2
 
@@ -62,47 +62,47 @@ value of this dict represents adjustment to corresponding original point to get 
 on  marching cube plane
 """
 ORIGINAL_CASE = {
-    "p5": [((-HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, 0, -HALF_SIDE), (0, -HALF_SIDE, -HALF_SIDE))],
-    "p5_p6": [((0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0)),
-              ((0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0), (0, HALF_SIDE, -HALF_SIDE))],
-    "p2_p5": [((-HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, 0, -HALF_SIDE), (0, -HALF_SIDE, -HALF_SIDE)),
-              ((-HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, 0, HALF_SIDE), (HALF_SIDE, 0, HALF_SIDE))],
-    "p3_p5": [((-HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, 0, -HALF_SIDE), (0, -HALF_SIDE, -HALF_SIDE)),
+    "p5": [((-HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, 0, -HALF_SIDE))],
+    "p5_p6": [((-HALF_SIDE, -HALF_SIDE, 0),(0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0)),
+              ((-HALF_SIDE, HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (0, HALF_SIDE, -HALF_SIDE))],
+    "p2_p5": [((-HALF_SIDE, HALF_SIDE, 0), (0, HALF_SIDE, HALF_SIDE), (-HALF_SIDE, 0, HALF_SIDE)),
+              ((-HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, 0, -HALF_SIDE))],
+    "p3_p5": [((-HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, 0, -HALF_SIDE)),
               ((HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, HALF_SIDE), (0, HALF_SIDE, HALF_SIDE))],
-    "p5_p6_p7": [((0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, -HALF_SIDE, 0), (HALF_SIDE, HALF_SIDE, 0)),
-                 ((0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, -HALF_SIDE)),
+    "p5_p6_p7": [((-HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, HALF_SIDE, 0)),
+                 ((HALF_SIDE, HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE)),
                  ((HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0))],
-    "p2_p7_p8": [((HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (0, HALF_SIDE, -HALF_SIDE)),
+    "p2_p7_p8": [((0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, -HALF_SIDE, 0), (0, HALF_SIDE, -HALF_SIDE)),
                  ((HALF_SIDE, HALF_SIDE, 0), (0, HALF_SIDE, -HALF_SIDE), (HALF_SIDE, -HALF_SIDE, 0)),
-                 ((-HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, 0, HALF_SIDE), (0, HALF_SIDE, HALF_SIDE))],
-    "p2_p4_p7": [((HALF_SIDE, 0, -HALF_SIDE), (0, HALF_SIDE, -HALF_SIDE), (HALF_SIDE, HALF_SIDE, 0)),
+                 ((-HALF_SIDE, 0, HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0), (0, HALF_SIDE, HALF_SIDE))],
+    "p2_p4_p7": [((0, HALF_SIDE, -HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE), (HALF_SIDE, HALF_SIDE, 0)),
                  ((HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, HALF_SIDE), (HALF_SIDE, 0, HALF_SIDE)),
-                 ((-HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, 0, HALF_SIDE), (0, HALF_SIDE, HALF_SIDE))],
-    "p5_p6_p7_p8": [((HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0)),
-                    ((HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, HALF_SIDE, 0))],
-    "p4_p5_p6_p7": [((0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, -HALF_SIDE, 0), (HALF_SIDE, HALF_SIDE, 0)),
-                    ((0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, -HALF_SIDE)),
-                    ((HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0)),
+                 ((-HALF_SIDE, 0, HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0), (0, HALF_SIDE, HALF_SIDE))],
+    "p5_p6_p7_p8": [((-HALF_SIDE, -HALF_SIDE, 0), (HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0)),
+                    ((-HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, -HALF_SIDE, 0), (HALF_SIDE, HALF_SIDE, 0))],
+    "p4_p5_p6_p7": [((-HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, HALF_SIDE, 0)),
+                    ((HALF_SIDE, HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE)),
+                    ((-HALF_SIDE, -HALF_SIDE, 0), (HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0)),
                     ((HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, HALF_SIDE), (HALF_SIDE, 0, HALF_SIDE))],
-    "p1_p3_p6_p8": [((HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE)),
-                    ((-HALF_SIDE, HALF_SIDE, 0), (0, HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, 0, -HALF_SIDE)),
-                    ((-HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, HALF_SIDE), (-HALF_SIDE, 0, HALF_SIDE)),
+    "p1_p3_p6_p8": [((0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, -HALF_SIDE, 0), (HALF_SIDE, 0, -HALF_SIDE)),
+                    ((0, HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, 0, -HALF_SIDE)),
+                    ((0, -HALF_SIDE, HALF_SIDE), (-HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, 0, HALF_SIDE)),
                     ((HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, HALF_SIDE), (0, HALF_SIDE, HALF_SIDE))],
-    "p1_p5_p6_p8": [((-HALF_SIDE, HALF_SIDE, 0), (0, HALF_SIDE, -HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE)),
-                    ((-HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, -HALF_SIDE), (-HALF_SIDE, 0, HALF_SIDE)),
-                    ((-HALF_SIDE, 0, HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE), (HALF_SIDE, -HALF_SIDE, 0)),
+    "p1_p5_p6_p8": [((0, HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, -HALF_SIDE)),
+                    ((HALF_SIDE, 0, -HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, 0, HALF_SIDE)),
+                    ((HALF_SIDE, 0, -HALF_SIDE), (-HALF_SIDE, 0, HALF_SIDE), (HALF_SIDE, -HALF_SIDE, 0)),
                     ((HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, 0, HALF_SIDE), (0, -HALF_SIDE, HALF_SIDE))],
     "p1_p5_p6_p7": [((HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, -HALF_SIDE)),
-                    ((-HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, -HALF_SIDE), (0, -HALF_SIDE, HALF_SIDE)),
-                    ((HALF_SIDE, 0, -HALF_SIDE), (0, -HALF_SIDE, HALF_SIDE), (HALF_SIDE, -HALF_SIDE, 0)),
-                    ((-HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, -HALF_SIDE), (-HALF_SIDE, 0, HALF_SIDE))],
-    "p2_p5_p6_p8": [((0, HALF_SIDE, HALF_SIDE), (0, HALF_SIDE, -HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE)),
-                    ((0, HALF_SIDE, HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE), (-HALF_SIDE, -HALF_SIDE, 0)),
+                    ((HALF_SIDE, 0, -HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0), (0, -HALF_SIDE, HALF_SIDE)),
+                    ((HALF_SIDE, 0, -HALF_SIDE), (0, -HALF_SIDE, HALF_SIDE), (0, -HALF_SIDE, -HALF_SIDE)),
+                    ((-HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, 0, HALF_SIDE), (0, -HALF_SIDE, HALF_SIDE))],
+    "p2_p5_p6_p8": [((0, HALF_SIDE, -HALF_SIDE), (0, HALF_SIDE, HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE)),
+                    ((HALF_SIDE, 0, -HALF_SIDE), (0, HALF_SIDE, HALF_SIDE), (-HALF_SIDE, -HALF_SIDE, 0)),
                     ((HALF_SIDE, 0, -HALF_SIDE), (-HALF_SIDE, -HALF_SIDE, 0), (HALF_SIDE, -HALF_SIDE, 0)),
-                    ((0, HALF_SIDE, HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE), (-HALF_SIDE, 0, HALF_SIDE))],
-    "p2_p4_p6_p8": [((0, -HALF_SIDE, HALF_SIDE), (0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE)),
+                    ((-HALF_SIDE, -HALF_SIDE, 0), (0, HALF_SIDE, HALF_SIDE), (-HALF_SIDE, 0, HALF_SIDE))],
+    "p2_p4_p6_p8": [((0, -HALF_SIDE, -HALF_SIDE), (0, -HALF_SIDE, HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE)),
                     ((HALF_SIDE, 0, HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE), (0, -HALF_SIDE, HALF_SIDE)),
-                    ((0, HALF_SIDE, HALF_SIDE), (0, HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, 0, HALF_SIDE)),
+                    ((0, HALF_SIDE, -HALF_SIDE), (0, HALF_SIDE, HALF_SIDE), (-HALF_SIDE, 0, HALF_SIDE)),
                     ((-HALF_SIDE, 0, HALF_SIDE), (-HALF_SIDE, 0, -HALF_SIDE), (0, HALF_SIDE, -HALF_SIDE))]
 
 }
@@ -690,28 +690,29 @@ def count_permutation_cases():
 
 if __name__ == "__main__":
 
-    # Update Permutations:
-
-    # not count 0 and 8 cases:
+    """
+    UPDATING PERMUTATIONS
+    """
+    # NOT INCLUDING 0 AND 8 CASES:
     # marching_cubes_permutation_rot()
 
-    # count 0 and 8 cases:
+    # INCLUDING 0 AND 8 CASES:
     permutation_256()
 
     # total cases:
     count_permutation_cases()
-    #
+    
     with open('permutations.txt',"w") as f:
         f.write(json.dumps(PERMUTATIONS))
-    #
     # print(PERMUTATIONS)
+
 
     """
     Drawing and testing original cases here
     
     Uncomment all lines at once to start testing
     """
-    # LOOK_UP_KEY = "p2_p7_p8"
+    # LOOK_UP_KEY = "p2_p4_p6_p8"
     # MID_POINT = (0, 0, 0)
     # draw_normal_cube(MID_POINT)
     # draw_triangle_and_hightlight_point_inside(LOOK_UP_KEY, MID_POINT)
@@ -768,7 +769,8 @@ if __name__ == "__main__":
     """
 
 
-    plt.show()
+    # plt.show()
+    
     # print(list(MAPPING.keys())[:-1])
     # a = {"p1", "p2", "p3"}
     # b = {"p2"}

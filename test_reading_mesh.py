@@ -5,6 +5,9 @@ print("Testing mesh in Open3D...")
 try:
 
     mesh = o3d.io.read_triangle_mesh('MarchingCubesOutput.ply')
+    # mesh = o3d.io.read_triangle_mesh('TestNormalVector.ply')
+
+
     mesh.compute_vertex_normals()
     print('DONE!')
     o3d.visualization.draw_geometries([mesh])
@@ -14,8 +17,6 @@ try:
     # mesh_in.compute_vertex_normals()
     # print('DONE!')
     # o3d.visualization.draw_geometries([mesh_in])
-
-
 
 
 except:

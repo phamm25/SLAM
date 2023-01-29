@@ -3,6 +3,7 @@ import open3d as o3d
 from ctypes.wintypes import HACCEL
 from turtle import Vec2D
 from typing import List
+from DatabaseForPermutationAllPermutationsVer3 import SIDE
 
 # from defer import inline_callbacks
 import matplotlib
@@ -16,10 +17,15 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import json
 
 
-
-# from DatabaseForPermutationAllPermutations import draw_triangles, highlight_points_inside
+# If CUBE_SIZE < 1, use DATA_SCALE to scale up data points to prevent numeric underflow
 CUBE_SIZE = 1
 HALF_SIDE = CUBE_SIZE/2
+
+MIN_INTENSITY = 0
+DATA_SCALE = None
+ALL_POINTS = set(["p"+str(i) for i in range(1,9)])
+
+
 
 MAPPING = {
     "p1" : (-1*HALF_SIDE, -1*HALF_SIDE, 1*HALF_SIDE),
@@ -109,21 +115,38 @@ def floor(value, floor_base):
     Need to fix this function by built-in func to be faster
     """
     return floor_base * (value // floor_base)
+    # return floor_base * round((value // floor_base))
+    # return floor_base * int(str(value // floor_base).split(".")[0])
+    # return floor_base * np.exp(np.log(value // floor_base))
 
 def main():
     with open('Axle shaft.ply','rb') as f:
-        plydata = PlyData.read(f)
-        
-    cube_list = plydata.elements[0].data
+        plydata = PlyData.read(f)    
+    # cube_list = plydata.elements[0].data
     # cube_list = cube_list[:num_init_points]
+
+    # FILTERING DENSITY:
+    if DATA_SCALE != None:
+        # cube_list = [(i[0]*DATA_SCALE, i[1]*DATA_SCALE, i[2]*DATA_SCALE) for i in plydata.elements[0].data if i[3] >= MIN_INTENSITY]
+        cube_list = [(i[0]*DATA_SCALE, i[1]*DATA_SCALE, i[2]*DATA_SCALE) for i in plydata.elements[0].data]
+    else:
+        # cube_list = [i for i in plydata.elements[0].data if i[3] >= MIN_INTENSITY]
+        cube_list = cube_list = plydata.elements[0].data
+
     print("Num points are: ",len(cube_list))
+    # print(cube_list[:10])
 
 
     # VOXEL_DATA = list(set([(CUBE_SIZE*math.floor(p[0]) + HALF_SIDE, CUBE_SIZE*math.floor(p[1]) + HALF_SIDE, CUBE_SIZE*math.floor(p[2]) + HALF_SIDE) for p in cube_list]))
-    VOXEL_DATA = list(set([(floor(p[0],CUBE_SIZE) + HALF_SIDE, floor(p[1],CUBE_SIZE) + HALF_SIDE, floor(p[2],CUBE_SIZE) + HALF_SIDE) for p in cube_list]))
-    print("Number of Voxel Data: ",len(VOXEL_DATA))
+    if DATA_SCALE != None:
+        VOXEL_DATA = list(set([(math.floor(p[0]) + HALF_SIDE, math.floor(p[1]) + HALF_SIDE, math.floor(p[2]) + HALF_SIDE) for p in cube_list]))
+    else:
+        VOXEL_DATA = list(set([(floor(p[0],CUBE_SIZE) + HALF_SIDE, floor(p[1],CUBE_SIZE) + HALF_SIDE, floor(p[2],CUBE_SIZE) + HALF_SIDE) for p in cube_list]))
 
-    # print(VOXEL_DATA)
+    print("Number of Voxel Data: ",len(VOXEL_DATA))
+    
+    # print(VOXEL_DATA[:10])
+   
     # print(len(VOXEL_DATA))    
     for mid in VOXEL_DATA:
         # print("orig cube is: ",orig_cub)
@@ -133,13 +156,19 @@ def main():
                 OFFSET_GRID[off_cube] = set([mid])
             else: 
                 OFFSET_GRID[off_cube].add(mid)
+    
     # print("Number of offset_grid: ",len(OFFSET_GRID))
 
 
     for mid, p_inside in OFFSET_GRID.items():
-        lookup = '_'.join(sorted([REVERSE_MAPPING[(p[0]-mid[0], p[1]-mid[1], p[2]-mid[2])] for p in p_inside]))
+
+        # lookup = '_'.join(sorted([REVERSE_MAPPING[(p[0]-mid[0], p[1]-mid[1], p[2]-mid[2])] for p in p_inside]))
+        lookup = '_'.join(sorted(list(ALL_POINTS.difference(set([REVERSE_MAPPING[(p[0]-mid[0], p[1]-mid[1], p[2]-mid[2])] for p in p_inside])))))
+
         # print(mid, p_inside, lookup)
+
         triangles = PERMUTATIONS[lookup]
+
         for tri in triangles:
             temp_tri = []
             for point in tri:

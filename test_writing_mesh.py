@@ -21,7 +21,7 @@ np_triangles = np.array([[j*3+i for i in range(3)] for j in range(len(np_vertice
 mesh.vertices = open3d.utility.Vector3dVector(np_vertices)
 
 mesh.triangles = open3d.utility.Vector3iVector(np_triangles)
-mesh.paint_uniform_color([1, 0.706, 0])
+# mesh.paint_uniform_color([1, 0.706, 0])
 
 
 
