@@ -2,7 +2,7 @@ import open3d
 import numpy as np
 import MarchingCubesVer2 as march_cube
 
-NUM_INIT_POINTS = 1000
+NUM_INIT_POINTS = 7
 
 
 # march_cube.main(NUM_INIT_POINTS)

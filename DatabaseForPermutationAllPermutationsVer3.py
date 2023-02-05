@@ -458,8 +458,8 @@ def mirror_triangle(list_of_tri, plane):
     a = [None for i in range(len(list_of_tri))]
     for i in range(len(list_of_tri)):
         a[i] = (to_point(mirror_plane(to_vector(list_of_tri[i][0]), plane)),
-                to_point(mirror_plane(to_vector(list_of_tri[i][1]), plane)),
-                to_point(mirror_plane(to_vector(list_of_tri[i][2]), plane)))
+                to_point(mirror_plane(to_vector(list_of_tri[i][2]), plane)),
+                to_point(mirror_plane(to_vector(list_of_tri[i][1]), plane)))
     return a
 
 def mirror_point(list_of_point, plane):

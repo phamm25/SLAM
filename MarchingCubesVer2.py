@@ -123,7 +123,7 @@ def main():
     with open('Axle shaft.ply','rb') as f:
         plydata = PlyData.read(f)    
     # cube_list = plydata.elements[0].data
-    # cube_list = cube_list[:num_init_points]
+
 
     # FILTERING DENSITY:
     if DATA_SCALE != None:
@@ -131,7 +131,8 @@ def main():
         cube_list = [(i[0]*DATA_SCALE, i[1]*DATA_SCALE, i[2]*DATA_SCALE) for i in plydata.elements[0].data]
     else:
         # cube_list = [i for i in plydata.elements[0].data if i[3] >= MIN_INTENSITY]
-        cube_list = cube_list = plydata.elements[0].data
+        cube_list = plydata.elements[0].data
+    # cube_list = cube_list[:num_init_points]
 
     print("Num points are: ",len(cube_list))
     # print(cube_list[:10])
@@ -162,9 +163,9 @@ def main():
 
     for mid, p_inside in OFFSET_GRID.items():
 
-        # lookup = '_'.join(sorted([REVERSE_MAPPING[(p[0]-mid[0], p[1]-mid[1], p[2]-mid[2])] for p in p_inside]))
-        lookup = '_'.join(sorted(list(ALL_POINTS.difference(set([REVERSE_MAPPING[(p[0]-mid[0], p[1]-mid[1], p[2]-mid[2])] for p in p_inside])))))
-
+        lookup = '_'.join(sorted([REVERSE_MAPPING[(p[0]-mid[0], p[1]-mid[1], p[2]-mid[2])] for p in p_inside]))
+        # lookup = '_'.join(sorted(list(ALL_POINTS.difference(set([REVERSE_MAPPING[(p[0]-mid[0], p[1]-mid[1], p[2]-mid[2])] for p in p_inside])))))
+        # print("Look up key is:", lookup)
         # print(mid, p_inside, lookup)
 
         triangles = PERMUTATIONS[lookup]
