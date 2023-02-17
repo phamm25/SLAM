@@ -3,10 +3,11 @@ import numpy as np
 import MarchingCubesVer2 as march_cube
 
 NUM_INIT_POINTS = 7
+file_name = "mesh.ply"
 
 
 # march_cube.main(NUM_INIT_POINTS)
-march_cube.main()
+march_cube.main(file_name)
 
 mesh = open3d.geometry.TriangleMesh()
 np_vertices = np.array([[None for i in range(3)] for j in range(len(march_cube.LIST_OF_TRI)*3)])

@@ -119,20 +119,34 @@ def floor(value, floor_base):
     # return floor_base * int(str(value // floor_base).split(".")[0])
     # return floor_base * np.exp(np.log(value // floor_base))
 
-def main():
-    with open('Axle shaft.ply','rb') as f:
-        plydata = PlyData.read(f)    
-    # cube_list = plydata.elements[0].data
+def main(file_name):
+    """
+    Original way to read data
+    """
+    # with open(file_name,'rb') as f:
+    #     plydata = PlyData.read(f)    
+    # # cube_list = plydata.elements[0].data
 
 
-    # FILTERING DENSITY:
-    if DATA_SCALE != None:
-        # cube_list = [(i[0]*DATA_SCALE, i[1]*DATA_SCALE, i[2]*DATA_SCALE) for i in plydata.elements[0].data if i[3] >= MIN_INTENSITY]
-        cube_list = [(i[0]*DATA_SCALE, i[1]*DATA_SCALE, i[2]*DATA_SCALE) for i in plydata.elements[0].data]
-    else:
-        # cube_list = [i for i in plydata.elements[0].data if i[3] >= MIN_INTENSITY]
-        cube_list = plydata.elements[0].data
-    # cube_list = cube_list[:num_init_points]
+    # # FILTERING DENSITY:
+    # if DATA_SCALE != None:
+    #     # cube_list = [(i[0]*DATA_SCALE, i[1]*DATA_SCALE, i[2]*DATA_SCALE) for i in plydata.elements[0].data if i[3] >= MIN_INTENSITY]
+    #     cube_list = [(i[0]*DATA_SCALE, i[1]*DATA_SCALE, i[2]*DATA_SCALE) for i in plydata.elements[0].data]
+    # else:
+    #     # cube_list = [i for i in plydata.elements[0].data if i[3] >= MIN_INTENSITY]
+    #     cube_list = plydata.elements[0].data
+    # # cube_list = cube_list[:num_init_points]
+
+
+
+    """
+    Testing new way with open3d and down sampling to voxel size
+    """
+    pcd = o3d.io.read_point_cloud(file_name)
+    pcd = pcd.voxel_down_sample(voxel_size=CUBE_SIZE)
+    cube_list = np.asarray(pcd.points)
+
+
 
     print("Num points are: ",len(cube_list))
     # print(cube_list[:10])
