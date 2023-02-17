@@ -5,11 +5,11 @@ print("Testing mesh in Open3D...")
 try:
 
     mesh = o3d.io.read_triangle_mesh('MarchingCubesOutput.ply')
-    mesh.paint_uniform_color([0, 0.5, 0.7])
+    # mesh.paint_uniform_color([0, 0.5, 0.7])
     # mesh = o3d.io.read_triangle_mesh('TestNormalVector.ply')
 
 
-    # mesh.compute_vertex_normals()
+    mesh.compute_vertex_normals()
     print('DONE!')
     o3d.visualization.draw_geometries([mesh])
 
