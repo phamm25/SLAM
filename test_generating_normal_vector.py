@@ -50,35 +50,17 @@ from plyfile import PlyData
 """
 Testing estimate_normals, normalize_normal,voxel_down_sample and remove_radius_outlier
 """
-# pcd = o3d.io.read_point_cloud("mesh.ply")
+pcd = o3d.io.read_point_cloud("mesh.ply")
 # pcd = pcd.voxel_down_sample(voxel_size=0.5)
 
 # # nb_points = num points in radius/ radius = radius of sphere/ return: Tuple[open3d.geometry.PointCloud, List[int]]
 # pcd = pcd.remove_radius_outlier(nb_points=5, radius=0.5)[0]
 
-# pcd.estimate_normals()
+pcd.estimate_normals(fast_normal_computation=False)
 # pcd.normalize_normals()
-# pcd.paint_uniform_color([0, 0.5, 0.7])
+pcd.paint_uniform_color([0, 0.5, 0.7])
 
-# o3d.visualization.draw_geometries(
-#     [pcd],
-#     zoom=0.3412,
-#     front=[0.4257, -0.2125, -0.8795],
-#     lookat=[2.6172, 2.0475, 1.532],
-#     up=[-0.0694, -0.9768, 0.2024],
-# )
 
-"""
-Test filtering and down sampling data for better Marching Cubes Input
-"""
-pcd = o3d.io.read_point_cloud("mesh.ply")
-pcd = pcd.voxel_down_sample(voxel_size=1.2)
-
-print(np.asarray(pcd.points)[:10])
-# nb_points = num points in radius/ radius = radius of sphere/ return: Tuple[open3d.geometry.PointCloud, List[int]]
-# pcd = pcd.remove_radius_outlier(nb_points=5, radius=1.5)[0]
-
-# pcd.paint_uniform_color([0, 0.5, 0.7])
 o3d.visualization.draw_geometries(
     [pcd],
     zoom=0.3412,
@@ -86,3 +68,22 @@ o3d.visualization.draw_geometries(
     lookat=[2.6172, 2.0475, 1.532],
     up=[-0.0694, -0.9768, 0.2024],
 )
+
+"""
+Test filtering and down sampling data for better Marching Cubes Input
+"""
+# pcd = o3d.io.read_point_cloud("mesh.ply")
+# pcd = pcd.voxel_down_sample(voxel_size=1.2)
+
+# print(np.asarray(pcd.points)[:10])
+# # nb_points = num points in radius/ radius = radius of sphere/ return: Tuple[open3d.geometry.PointCloud, List[int]]
+# # pcd = pcd.remove_radius_outlier(nb_points=5, radius=1.5)[0]
+
+# # pcd.paint_uniform_color([0, 0.5, 0.7])
+# o3d.visualization.draw_geometries(
+#     [pcd],
+#     zoom=0.3412,
+#     front=[0.4257, -0.2125, -0.8795],
+#     lookat=[2.6172, 2.0475, 1.532],
+#     up=[-0.0694, -0.9768, 0.2024],
+# )
