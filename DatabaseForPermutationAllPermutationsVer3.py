@@ -31,7 +31,6 @@ import json
 
 
 
-
 # If DATA_SCALE from MarchingCubeVer2 != None, SIDE = 1
 SIDE = 1
 HALF_SIDE = SIDE/2
@@ -71,7 +70,7 @@ ORIGINAL_CASE = {
               ((HALF_SIDE, HALF_SIDE, 0), (HALF_SIDE, 0, HALF_SIDE), (0, HALF_SIDE, HALF_SIDE))],
     "p5_p6_p7": [((-HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, HALF_SIDE, 0)),
                  ((HALF_SIDE, HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, 0, -HALF_SIDE)),
-                 ((HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, -HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0))],
+                 ((HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, HALF_SIDE, 0), (-HALF_SIDE, -HALF_SIDE, 0))],
     "p2_p7_p8": [((0, -HALF_SIDE, -HALF_SIDE), (HALF_SIDE, -HALF_SIDE, 0), (0, HALF_SIDE, -HALF_SIDE)),
                  ((HALF_SIDE, HALF_SIDE, 0), (0, HALF_SIDE, -HALF_SIDE), (HALF_SIDE, -HALF_SIDE, 0)),
                  ((-HALF_SIDE, 0, HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0), (0, HALF_SIDE, HALF_SIDE))],
@@ -145,6 +144,77 @@ def create_cube_from_midpoint(mid_point):
     lis = [(i[0] + mid_point[0], i[1] + mid_point[1], i[2] + mid_point[2]) for i in lis]
     return lis
 
+
+def vector(startp, endp):
+    """
+    calculate the vector of 2 given points
+    :return: vector
+    """
+    x = endp[0] - startp[0]
+    y = endp[1] - startp[1]
+    z = endp[2] - startp[2]
+    return (x,y,z)
+
+
+def cal_normal_vector(tri):
+    """
+    count the order of 3 points of a triangle
+    :param mid_point:
+    :param tri: consists 3 points that shape the triangle
+    :return: list same format as ORGINAL_CASE to number all points
+    """
+    #tri is a list which has 3 values are lists
+    #tri should be the value[1] or value[2] of ORIGINAL_CASE
+    #tri = ORIGINAL_CASE['p5'][1] or ORIGINAL_CASE['p5_p6'][2]
+    '''
+    "p5":    [((-HALF_SIDE, -HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, 0, -HALF_SIDE))],
+    "p5":    [((x1,y1,z1),                  (x2,y2,z2),                  (x3,y3,z3))                 ]
+    --> tri --> tri[0] = (-HALF_SIDE, -HALF_SIDE, 0) --> tri[0][3] = 0
+    p5_p6: (1,2,3),(1,2,3)
+    "p5_p6": [((-HALF_SIDE, -HALF_SIDE, 0),(0, -HALF_SIDE, -HALF_SIDE), (-HALF_SIDE, HALF_SIDE, 0)),
+             ((-HALF_SIDE, HALF_SIDE, 0), (0, -HALF_SIDE, -HALF_SIDE), (0, HALF_SIDE, -HALF_SIDE))],
+    Case  p5_p6  value is:  [((-0.5, -0.5, 0), (0, -0.5, -0.5), (-0.5, 0.5, 0)), ((-0.5, 0.5, 0), (0, -0.5, -0.5), (0, 0.5, -0.5))]
+    create_triangle
+    '''
+    v1 = vector(tri[0],tri[1])
+    v2 = vector(tri[0],tri[2])
+    v3 = np.cross(v1,v2)
+    return v3
+
+
+def draw_normal_vector(mid_point):
+    """
+    draw normal vectors and showcase on the plot
+    Case  p5_p6  value is:  [((-0.5, -0.5, 0), (0, -0.5, -0.5), (-0.5, 0.5, 0)), ((-0.5, 0.5, 0), (0, -0.5, -0.5), (0, 0.5, -0.5))]
+    p5: [((-0.5, -0.5, 0), (0, -0.5, -0.5), (-0.5, 0, -0.5))] --> 1 triangle
+    create_triangle = [((-0.5, -0.5, 0), (0, -0.5, -0.5), (-0.5, 0.5, 0)), ((-0.5, 0.5, 0), (0, -0.5, -0.5), (0, 0.5, -0.5))]
+    --> coordinates ---> is a list consists of 2 TUPLES --> 2 triangles - 2 TUPLES
+    so what specifically is the value of those 2 tuples? the coordinates of the triangles in which each tuple in the list
+    is 1 triangle
+
+    draw_normal_cube(MID_POINT)
+    draw_triangle_and_hightlight_point_inside(LOOK_UP_KEY, MID_POINT)
+    draw_normal_vector(MID_POINT)
+    """
+
+    triangles = create_triangle(LOOK_UP_KEY, mid_point) #multiple triangles
+    #mid_point = (0,0,0)
+    for tri in triangles:
+        normal_vector = cal_normal_vector(tri)       #(tri is a tuple consists of 3 points of the triangle)
+        # Draw vector
+        # Define the endpoint of the vector
+        point1 = tri[0]
+        point2 = tri[1]
+        point3 = tri[2]
+        middle_point = tuple((np.array(point1) + np.array(point2) + np.array(point3)) / 3)
+        start_point = np.array(middle_point)
+        end_point = start_point + normal_vector
+
+        # Plot the vector
+        ax = plt.gca()
+        ax.quiver(start_point[0], start_point[1], start_point[2],
+                  normal_vector[0], normal_vector[1], normal_vector[2],
+                  color='black', length= 0.4, arrow_length_ratio= 0.1)
 
 
 def draw_normal_cube(mid_point):
@@ -712,10 +782,12 @@ if __name__ == "__main__":
     
     Uncomment all lines at once to start testing
     """
-    # LOOK_UP_KEY = "p2_p4_p6_p8"
-    # MID_POINT = (0, 0, 0)
-    # draw_normal_cube(MID_POINT)
-    # draw_triangle_and_hightlight_point_inside(LOOK_UP_KEY, MID_POINT)
+    LOOK_UP_KEY = "p5_p6_p7"
+    MID_POINT = (0, 0, 0)
+    draw_normal_cube(MID_POINT)
+    draw_triangle_and_hightlight_point_inside(LOOK_UP_KEY, MID_POINT)
+    draw_normal_vector(MID_POINT)
+
 
 
 
@@ -769,7 +841,7 @@ if __name__ == "__main__":
     """
 
 
-    # plt.show()
+    plt.show()
     
     # print(list(MAPPING.keys())[:-1])
     # a = {"p1", "p2", "p3"}
